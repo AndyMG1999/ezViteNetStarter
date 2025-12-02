@@ -50,7 +50,9 @@ const addSwaggerUIPackage = (apiPath) => {
 }
 
 const overwriteProgramFile = (targetFilePath) => {
-    const sourceFilePath = './ezProgramTemplate.cs';
+    console.log("Overwriting Program.cs file...");
+    const currentWorkingDirectory = __dirname;
+    const sourceFilePath = path.join(currentWorkingDirectory, "ezProgramTemplate.cs");
     try {
     // 1. Read the content from the source file
     // Use readFileSync for synchronous reading
@@ -61,11 +63,10 @@ const overwriteProgramFile = (targetFilePath) => {
     // This overwrites the destination file entirely
     fs.writeFileSync(targetFilePath, fileContent, 'utf8');
     console.log(`Successfully replaced content in: ${targetFilePath}`);
-
     } catch (error) {
     console.error("An error occurred during file replacement:");
     console.error(error.message);
     }
 }
 
-module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage };
+module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile};
