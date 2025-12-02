@@ -16,7 +16,7 @@ const createProjectFiles = (viteExecution,aspNetExecution) => {
 const installClientappDependancies = (clientappPath) => {
     process.chdir(clientappPath);
     try {
-    console.log("Installing Dependencies");
+    console.log("\x1b[33m%s\x1b[0m", "Installing npm dependancies...");
     const npmInstallOut = execSync("npm install");
     console.log(`npm install Out: ${npmInstallOut.toString()}`);
     } catch (error) {
@@ -31,7 +31,7 @@ const addCustomNPMCommand = (projectName) => {
     version: "1.0.0",
     description: "",
     scripts: {
-        "dev": `(cd clientapp && npm run dev -- --port 7016) & (cd api && dotnet watch run -- --urls "http://localhost:1999")`,
+        "dev": `(cd clientapp && npm run dev -- --open --port 7016) & (cd api && dotnet watch run -- --urls "http://localhost:1999")`,
     },
     };
 

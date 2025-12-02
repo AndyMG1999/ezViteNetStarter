@@ -28,12 +28,17 @@
             console.log("Folder Created! Adding Custom npm script...");
             const clientappPath = path.join(newFolderPath,clientappFolderName);
             const apiPath = path.join(newFolderPath,apiFolderName);
+            
+            // Vite Configurations
             addCustomNPMCommand(folderName);
-            editViteConfig(clientappPath);
+            //editViteConfig(clientappPath);
             editWelcomePage(clientappPath);
+
+            // ASP NET Configurations
             addSwaggerUIPackage(apiPath);
             overwriteProgramFile(apiPath+"/Program.cs");
             editNetLaunchSettings(apiPath);
+            // Initial npm install
             installClientappDependancies(clientappPath);
             
             process.on('exit', (code) => {
