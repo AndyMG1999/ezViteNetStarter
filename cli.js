@@ -29,17 +29,17 @@
             const clientappPath = path.join(newFolderPath,clientappFolderName);
             const apiPath = path.join(newFolderPath,apiFolderName);
             addCustomNPMCommand(folderName);
+            editViteConfig(clientappPath);
+            editWelcomePage(clientappPath);
             addSwaggerUIPackage(apiPath);
             overwriteProgramFile(apiPath+"/Program.cs");
-            editViteConfig(clientappPath);
             editNetLaunchSettings(apiPath);
-            editWelcomePage(clientappPath);
             installClientappDependancies(clientappPath);
+            
             process.on('exit', (code) => {
             console.log('\x1b[32m%s\x1b[0m', '\n\nSuccessfully built ezvn project!');
             console.log('\x1b[36m%s\x1b[0m', 'To run project, simply cd into project and run \'npm run dev\'.');
             });
-
         }
         });
     } else {

@@ -137,7 +137,7 @@ const editNetLaunchSettings = (apiPath) => {
 const editWelcomePage = (clientappPath) => {
     process.chdir(clientappPath);
     const srcPath = `${clientappPath}/src`;
-    const textToInsert = `ASP NET + Vite`;
+    const textToInsert = `🟪 ASP NET + Vite`;
     try {
     fs.readdir(srcPath, (err, files) => {
     if (err) {
