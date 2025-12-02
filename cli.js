@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-    const { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig } = require('./ezViteNetFunctions');
+    const { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig,editNetLaunchSettings } = require('./ezViteNetFunctions');
     const fs = require('node:fs');
     const path = require('node:path');
     const args = process.argv.slice(2);
@@ -33,6 +33,7 @@
             addSwaggerUIPackage(apiPath);
             overwriteProgramFile(apiPath+"/Program.cs");
             editViteConfig(clientappPath);
+            editNetLaunchSettings(apiPath);
         }
         });
     } else {

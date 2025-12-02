@@ -74,6 +74,8 @@ const editViteConfig = (clientappPath) => {
     const viteConfigPath = `${clientappPath}/vite.config.js`;
     const textToInsert = `\n  server: { \n    open: true,// This will open the browser automatically\n  },`;
     try {
+    // Edits Vite Config to automatically open window with frontend
+
     // 1. Read the content from the source file
     // Use readFileSync for synchronous reading
     const fileContent = fs.readFileSync(viteConfigPath, 'utf8');
@@ -101,4 +103,42 @@ const editViteConfig = (clientappPath) => {
     }
 }
 
-module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig};
+const editNetLaunchSettings = (apiPath) => {
+    process.chdir(apiPath);
+    const netLaunchPath = `${apiPath}/Properties/launchSettings.json`;
+    const textToInsert = `"launchBrowser": true,\n      "launchUrl": "swagger",`;
+    try {
+    // Edits .net launch settings to automatically open window with swagger page
+    const fileContent = fs.readFileSync(netLaunchPath, 'utf8');
+    console.log(`Successfully read content from: ${netLaunchPath}`);
+
+    const newContent = fileContent.replaceAll(`"launchBrowser": false,`,textToInsert);
+
+    fs.writeFileSync(netLaunchPath, newContent, 'utf8');
+    console.log(`Successfully edited api launchsettings.json at: ${netLaunchPath}`);
+    } catch (error) {
+    console.error("An error occurred during file modification:");
+    console.error(error.message);
+    }
+}
+
+const editWelcomePage = (clientappPath) => {
+    process.chdir(apiPath);
+    const appPath = `${clientappPath}/src/App`;
+    const textToInsert = `"launchBrowser": true,\n      "launchUrl": "swagger",`;
+    try {
+    // Edits .net launch settings to automatically open window with swagger page
+    const fileContent = fs.readFileSync(netLaunchPath, 'utf8');
+    console.log(`Successfully read content from: ${netLaunchPath}`);
+
+    const newContent = fileContent.replaceAll(`"launchBrowser": false,`,textToInsert);
+
+    fs.writeFileSync(netLaunchPath, newContent, 'utf8');
+    console.log(`Successfully edited api launchsettings.json at: ${netLaunchPath}`);
+    } catch (error) {
+    console.error("An error occurred during file modification:");
+    console.error(error.message);
+    }
+}
+
+module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig,editNetLaunchSettings,editWelcomePage};
