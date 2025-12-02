@@ -69,4 +69,36 @@ const overwriteProgramFile = (targetFilePath) => {
     }
 }
 
-module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile};
+const editViteConfig = (clientappPath) => {
+    process.chdir(clientappPath);
+    const viteConfigPath = `${clientappPath}/vite.config.js`;
+    const textToInsert = `\n  server: { \n    open: true,// This will open the browser automatically\n  },`;
+    try {
+    // 1. Read the content from the source file
+    // Use readFileSync for synchronous reading
+    const fileContent = fs.readFileSync(viteConfigPath, 'utf8');
+    console.log(`Successfully read content from: ${viteConfigPath}`);
+
+    // 2. Find the index of the first comma (",")
+    const firstCommaIndex = fileContent.indexOf(',');
+    if (firstCommaIndex === -1) {
+    console.log('No comma found in the file. No changes made.');
+    } else {
+        // 3. Split the content into two parts: before and after the comma
+        const partBefore = fileContent.substring(0, firstCommaIndex + 1); // +1 to include the comma itself
+        const partAfter = fileContent.substring(firstCommaIndex + 1);
+
+        // 4. Combine the parts with the new text inserted in the middle
+        const newContent = partBefore + textToInsert + partAfter;
+
+        // 5. Write the modified content back to the file (overwriting the original)
+        fs.writeFileSync(viteConfigPath, newContent, 'utf8');
+        console.log(`Successfully inserted text after the first comma in ${viteConfigPath}`);
+    }
+    } catch (error) {
+    console.error("An error occurred during file modification:");
+    console.error(error.message);
+    }
+}
+
+module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig};
