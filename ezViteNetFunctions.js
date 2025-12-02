@@ -71,32 +71,44 @@ const overwriteProgramFile = (targetFilePath) => {
 
 const editViteConfig = (clientappPath) => {
     process.chdir(clientappPath);
-    const viteConfigPath = `${clientappPath}/vite.config.js`;
     const textToInsert = `\n  server: { \n    open: true,// This will open the browser automatically\n  },`;
     try {
-    // Edits Vite Config to automatically open window with frontend
-
-    // 1. Read the content from the source file
-    // Use readFileSync for synchronous reading
-    const fileContent = fs.readFileSync(viteConfigPath, 'utf8');
-    console.log(`Successfully read content from: ${viteConfigPath}`);
-
-    // 2. Find the index of the first comma (",")
-    const firstCommaIndex = fileContent.indexOf(',');
-    if (firstCommaIndex === -1) {
-    console.log('No comma found in the file. No changes made.');
-    } else {
-        // 3. Split the content into two parts: before and after the comma
-        const partBefore = fileContent.substring(0, firstCommaIndex + 1); // +1 to include the comma itself
-        const partAfter = fileContent.substring(firstCommaIndex + 1);
-
-        // 4. Combine the parts with the new text inserted in the middle
-        const newContent = partBefore + textToInsert + partAfter;
-
-        // 5. Write the modified content back to the file (overwriting the original)
-        fs.writeFileSync(viteConfigPath, newContent, 'utf8');
-        console.log(`Successfully inserted text after the first comma in ${viteConfigPath}`);
+    fs.readdir(clientappPath, (err, files) => {
+    if (err) {
+        console.error('Error reading directory:', err);
+        return;
     }
+    const foundFile = files.find(file => file.includes("vite.config"));
+    if (foundFile) {
+        console.log(`File "${foundFile}" found in "${clientappPath}"`);
+        const viteConfigPath = `${clientappPath}/${foundFile}`;
+        // Edits Vite Config to automatically open window with frontend
+
+        // 1. Read the content from the source file
+        // Use readFileSync for synchronous reading
+        const fileContent = fs.readFileSync(viteConfigPath, 'utf8');
+        console.log(`Successfully read content from: ${viteConfigPath}`);
+
+        // 2. Find the index of the first comma (",")
+        const firstCommaIndex = fileContent.indexOf(',');
+        if (firstCommaIndex === -1) {
+        console.log('No comma found in the file. No changes made.');
+        } else {
+            // 3. Split the content into two parts: before and after the comma
+            const partBefore = fileContent.substring(0, firstCommaIndex + 1); // +1 to include the comma itself
+            const partAfter = fileContent.substring(firstCommaIndex + 1);
+
+            // 4. Combine the parts with the new text inserted in the middle
+            const newContent = partBefore + textToInsert + partAfter;
+
+            // 5. Write the modified content back to the file (overwriting the original)
+            fs.writeFileSync(viteConfigPath, newContent, 'utf8');
+            console.log(`Successfully inserted text after the first comma in ${viteConfigPath}`);
+        }
+    } else {
+        console.log(`File "${targetFileName}" not found in "${directoryPath}"`);
+    }
+    })
     } catch (error) {
     console.error("An error occurred during file modification:");
     console.error(error.message);
@@ -123,18 +135,33 @@ const editNetLaunchSettings = (apiPath) => {
 }
 
 const editWelcomePage = (clientappPath) => {
-    process.chdir(apiPath);
-    const appPath = `${clientappPath}/src/App`;
-    const textToInsert = `"launchBrowser": true,\n      "launchUrl": "swagger",`;
+    process.chdir(clientappPath);
+    const srcPath = `${clientappPath}/src`;
+    const textToInsert = `ASP NET + Vite`;
     try {
-    // Edits .net launch settings to automatically open window with swagger page
-    const fileContent = fs.readFileSync(netLaunchPath, 'utf8');
-    console.log(`Successfully read content from: ${netLaunchPath}`);
+    fs.readdir(srcPath, (err, files) => {
+    if (err) {
+        console.error('Error reading directory:', err);
+        return;
+    }
+    
+    const foundFile = files.find(file => file.includes("App") && !file.includes("App.css"));
 
-    const newContent = fileContent.replaceAll(`"launchBrowser": false,`,textToInsert);
+    if (foundFile) {
+        console.log(`File "${foundFile}" found in "${srcPath}"`);
+        const appPath = `${srcPath}/${foundFile}`;
+         // Edits .net launch settings to automatically open window with swagger page
+        const fileContent = fs.readFileSync(appPath, 'utf8');
+        console.log(`Successfully read content from: ${appPath}`);
 
-    fs.writeFileSync(netLaunchPath, newContent, 'utf8');
-    console.log(`Successfully edited api launchsettings.json at: ${netLaunchPath}`);
+        const newContent = fileContent.replaceAll(`Vite`,textToInsert);
+
+        fs.writeFileSync(appPath, newContent, 'utf8');
+        console.log(`Successfully edited App file at: ${appPath}`);
+    } else {
+        console.log(`File "${targetFileName}" not found in "${directoryPath}"`);
+    }
+    });
     } catch (error) {
     console.error("An error occurred during file modification:");
     console.error(error.message);
