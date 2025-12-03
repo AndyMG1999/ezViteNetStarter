@@ -1,16 +1,15 @@
-# 🍰 EZ Vite Net Starter (EZVN) (⚠️WIP)
+# 🍰 EZ Vite Net (EZVN) (⚠️WIP)
 
-EZ Vite Net Starter is an npm package that runs a series of scripts that help you quickly start an Vite frontend with a ASP Net backend API!
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
+EZ Vite Net is an npm package that runs a series of scripts that help you quickly start a Vite frontend with an ASP Net API backend!
 
 This allows you to create a template without the need of Visual Studio and allows the flexibility to use the latest versions of both Vite and .Net (something that .Net's built-in templates struggle with).
-
-
-
 ## Requirements
 EZVN requires that you have two things installed:
 - [**Node.js**](https://nodejs.org/en)
 - [**NET SDK**](https://dotnet.microsoft.com/en-us/download)
-## Installation
+## Getting Started
 
 Creating a project is as easy as one command!
 
@@ -19,12 +18,12 @@ Creating a project is as easy as one command!
 ```
 EZVN will then create a project in the current directory using the default frontend framework **(ReactJS)**.\
 \
-You can also specify which Vite template you want by specifying AFTER the project name
+To specify which Vite template to create the project in, declare template **AFTER** project name:
 
 ```bash
   npm create ezvn project-name react-ts
 ```
-This will make an **React+Typescript** Vite template with an ASP NET api!
+This will make a **React+Typescript** Vite template with an ASP NET api!
 ## Run Project
 
 Running your project is as easy as one line in the project directory!
@@ -32,4 +31,6 @@ Running your project is as easy as one line in the project directory!
   cd project-name    #...change directory into project
   npm run dev
 ```
-EZVN will even automatically open the windows for your frontend and backend (SwaggerUI) on run!
+EZVN will even automatically open the browser windows for the frontend and backend (SwaggerUI)!
+
+
