@@ -15,10 +15,22 @@ const createProjectFiles = (viteExecution,aspNetExecution) => {
 
 const installClientappDependancies = (clientappPath) => {
     process.chdir(clientappPath);
+    // To start the spinner:
     try {
-    console.log("\x1b[33m%s\x1b[0m", "Installing npm dependancies...");
+    console.log("\x1b[35m%s\x1b[0m", "Installing npm dependancies...");
     const npmInstallOut = execSync("npm install");
     console.log(`npm install Out: ${npmInstallOut.toString()}`);
+    } catch (error) {
+    console.error(`Error executing command: ${error.message}`);
+    }
+}
+
+const installConcurrently = (projectDir) => {
+    try {
+    process.chdir(projectDir);
+    console.log("\x1b[35m%s\x1b[0m", "Now installing concurrently...");
+    const concurrentlyOut = execSync("npm i -D concurrently");
+    console.log(`concurrently Out: ${concurrentlyOut.toString()}`);
     } catch (error) {
     console.error(`Error executing command: ${error.message}`);
     }
@@ -31,7 +43,7 @@ const addCustomNPMCommand = (projectName) => {
     version: "1.0.0",
     description: "",
     scripts: {
-        "dev": `(cd clientapp && npm run dev -- --open --port 7016) & (cd api && dotnet watch run -- --urls "http://localhost:1999")`,
+        "dev": `concurrently --kill-others 'cd api && dotnet watch run -- --urls "http://localhost:1999"' 'cd clientapp && npm run dev -- --open --port 7016'`,
     },
     };
 
@@ -39,9 +51,9 @@ const addCustomNPMCommand = (projectName) => {
 }
 
 const addSwaggerUIPackage = (apiPath) => {
-    process.chdir(apiPath);
     try {
-    console.log("Now adding SwaggerUI to dotnet...");
+    process.chdir(apiPath);
+    console.log("\x1b[35m%s\x1b[0m", "Now adding SwaggerUI to dotnet...");
     const swaggerUIOout = execSync("dotnet add package Swashbuckle.AspNetCore");
     console.log(`swaggerUI Out: ${swaggerUIOout.toString()}`);
     } catch (error) {
@@ -50,7 +62,7 @@ const addSwaggerUIPackage = (apiPath) => {
 }
 
 const overwriteProgramFile = (targetFilePath) => {
-    console.log("Overwriting Program.cs file...");
+    console.log("\x1b[35m%s\x1b[0m", "Overwriting Program.cs file...");
     const currentWorkingDirectory = __dirname;
     const sourceFilePath = path.join(currentWorkingDirectory, "ezProgramTemplate.cs");
     try {
@@ -70,6 +82,7 @@ const overwriteProgramFile = (targetFilePath) => {
 }
 
 const editViteConfig = (clientappPath) => {
+    console.log("\x1b[35m%s\x1b[0m", "Editing Vite Config...")
     process.chdir(clientappPath);
     const textToInsert = `\n  server: { \n    open: true,// This will open the browser automatically\n  },`;
     try {
@@ -116,6 +129,7 @@ const editViteConfig = (clientappPath) => {
 }
 
 const editNetLaunchSettings = (apiPath) => {
+    console.log("\x1b[35m%s\x1b[0m", "Editing .Net Launch Settings...");
     process.chdir(apiPath);
     const netLaunchPath = `${apiPath}/Properties/launchSettings.json`;
     const textToInsert = `"launchBrowser": true,\n      "launchUrl": "swagger",`;
@@ -135,6 +149,7 @@ const editNetLaunchSettings = (apiPath) => {
 }
 
 const editWelcomePage = (clientappPath) => {
+    console.log("\x1b[35m%s\x1b[0m", "Editing Webpage... :)");
     process.chdir(clientappPath);
     const srcPath = `${clientappPath}/src`;
     const textToInsert = `🟪 ASP NET + Vite`;
@@ -168,4 +183,4 @@ const editWelcomePage = (clientappPath) => {
     }
 }
 
-module.exports = { createProjectFiles,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig,editNetLaunchSettings,editWelcomePage};
+module.exports = { createProjectFiles,installConcurrently,addCustomNPMCommand,installClientappDependancies,addSwaggerUIPackage,overwriteProgramFile,editViteConfig,editNetLaunchSettings,editWelcomePage};

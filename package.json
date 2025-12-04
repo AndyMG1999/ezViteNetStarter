@@ -1,6 +1,6 @@
 {
   "name": "create-ezvn",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "EZ Vite Net Starter is an npm package that runs a series of scripts that help you quickly start an Vite frontend with a ASP Net backend API!",
   "main": "index.js",
   "bin": {
