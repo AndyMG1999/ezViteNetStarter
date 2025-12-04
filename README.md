@@ -32,5 +32,9 @@ Running your project is as easy as one line in the project directory!
   npm run dev
 ```
 EZVN will even automatically open the browser windows for the frontend and backend (SwaggerUI)!
-
-
+## Installed Tools
+EZVN creates a new project with the following tools installed:
+- [**Vite (client app and dev server)**](https://vite.dev)
+- [**ASP NET Web API (api and dev server)**](https://dotnet.microsoft.com/en-us/apps/aspnet/apis)
+- [**SwaggerUI (UI for web api)**](https://swagger.io/tools/swagger-ui/)
+- [**Concurrently (npm package used to run multiple commands in a single terminal)**](https://www.npmjs.com/package/concurrently)
