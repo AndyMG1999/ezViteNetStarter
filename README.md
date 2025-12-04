@@ -14,14 +14,14 @@ EZVN requires that you have two things installed:
 Creating a project is as easy as one command!
 
 ```bash
-  npm create ezvn project-name
+  npm create ezvn@latest project-name
 ```
 EZVN will then create a project in the current directory using the default frontend framework **(ReactJS)**.\
 \
 To specify which Vite template to create the project in, declare template **AFTER** project name:
 
 ```bash
-  npm create ezvn project-name react-ts
+  npm create ezvn@latest project-name react-ts
 ```
 This will make a **React+Typescript** Vite template with an ASP NET api!
 ## Run Project
